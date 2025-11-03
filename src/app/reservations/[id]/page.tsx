@@ -21,35 +21,35 @@ export default async function Reservation({
   }
 
   return (
-    <main className='flex min-h-screen flex-col items-center justify-center gap-6'>
+    <main className='flex min-h-screen w-screen flex-col items-center justify-center gap-6 p-4 md:px-0'>
       <Activity mode={success ? 'visible' : 'hidden'}>
-        <h1 className='mb-6 text-5xl font-bold text-green-600'>
+        <h1 className='mb-6 text-3xl font-bold text-green-600 md:text-5xl'>
           Sikeres Foglalás
         </h1>
       </Activity>
       <h2
         className={cn('font-semibold', {
-          'text-3xl': success,
-          'text-4xl': !success,
+          'text-xl md:text-3xl': success,
+          'text-2xl md:text-4xl': !success,
         })}
       >
         {success ? 'Részletek' : 'Foglalás Részletei'}
       </h2>
-      <div className='flex flex-col gap-4 text-justify font-mono text-lg text-pretty'>
-        <ReservationData title='Foglalás Dátuma: '>
+      <div className='flex flex-col gap-4 text-justify font-mono text-pretty md:text-lg'>
+        <ReservationData title='Foglalás Dátuma'>
           {reservation.createdAt.toLocaleDateString()}{' '}
           {reservation.createdAt.toLocaleTimeString()}
         </ReservationData>
-        <ReservationData title='Film címe: '>
+        <ReservationData title='Film címe'>
           {reservation.movie.title}
         </ReservationData>
-        <ReservationData title='Foglalt helyek: '>
+        <ReservationData title='Foglalt helyek'>
           {reservation.seats} db
         </ReservationData>
-        <ReservationData title='Foglalási név: '>
+        <ReservationData title='Foglalási név'>
           {reservation.name}
         </ReservationData>
-        <ReservationData title='Foglalási email: '>
+        <ReservationData title='Foglalási email'>
           {reservation.email}
         </ReservationData>
       </div>
@@ -65,8 +65,11 @@ function ReservationData({
   children: React.ReactNode;
 }) {
   return (
-    <span>
-      <span className='font-semibold'>{title}</span>
+    <span className='flex flex-col gap-2 md:flex-row'>
+      <span className='font-semibold text-nowrap'>
+        {title}
+        <span className='hidden md:inline-block'>:</span>
+      </span>
       <span>{children}</span>
     </span>
   );

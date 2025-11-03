@@ -30,7 +30,7 @@ export default function CreateReservation({ movies }: CreateReservationProps) {
   return (
     <form
       action={formAction}
-      className='space-y-8 tracking-wide'
+      className='space-y-8 p-8 tracking-wide md:p-0'
     >
       <FieldSet>
         <FieldLegend>Személyes Adatok</FieldLegend>
