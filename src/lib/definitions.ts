@@ -27,6 +27,7 @@ export const NewReservationSchema = z.object({
 
 export type NewReservation = z.infer<typeof NewReservationSchema>;
 export type NewReservationState = {
+  values: Partial<Record<keyof NewReservation, string | number>>;
   errors?: Partial<Record<keyof NewReservation, string[]>>;
   message?: string | null;
 };

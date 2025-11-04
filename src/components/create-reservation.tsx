@@ -15,13 +15,22 @@ import { Input } from './ui/input';
 import { Movie, NewReservationState } from '@/lib/definitions';
 import { Combobox } from './ui/combobox';
 import { createReservation } from '@/lib/actions';
+import { getTomorrowDate } from '@/lib/utils';
 
 type CreateReservationProps = {
   movies: Movie[];
 };
 
 export default function CreateReservation({ movies }: CreateReservationProps) {
-  const initialState: NewReservationState = { message: null, errors: {} };
+  const initialState: NewReservationState = {
+    values: {
+      name: '',
+      email: '',
+      date: getTomorrowDate(),
+    },
+    message: null,
+    errors: {},
+  };
   const [state, formAction, isPending] = useActionState(
     createReservation,
     initialState,
@@ -45,6 +54,7 @@ export default function CreateReservation({ movies }: CreateReservationProps) {
               name='name'
               type='text'
               placeholder='Kovács Péter'
+              defaultValue={state.values.name}
               aria-invalid={!!state.errors?.name}
               autoComplete='name'
             />
@@ -63,6 +73,7 @@ export default function CreateReservation({ movies }: CreateReservationProps) {
               name='email'
               type='email'
               placeholder='kovacs.peter@example.com'
+              defaultValue={state.values.email}
               aria-invalid={!!state.errors?.email}
               autoComplete='email'
             />
@@ -86,6 +97,7 @@ export default function CreateReservation({ movies }: CreateReservationProps) {
               id='date'
               name='date'
               type='datetime-local'
+              defaultValue={state.values.date}
               aria-invalid={!!state.errors?.date}
               autoComplete='off'
             />

@@ -5,7 +5,7 @@ import {
   NewReservationSchema,
   ReservationWithMovie,
 } from '@/lib/definitions';
-import { tryCatch } from './utils';
+import { getTomorrowDate, tryCatch } from './utils';
 import { db } from '@/database';
 import { ReservationsTable } from '@/database/schema';
 import { cache } from 'react';
@@ -18,6 +18,15 @@ export async function createReservation(
   prevState: NewReservationState,
   data: FormData,
 ): Promise<NewReservationState> {
+  const newState: NewReservationState = {
+    values: {
+      name: (data.get('name') as string) || '',
+      email: (data.get('email') as string) || '',
+      date: (data.get('date') as string) || getTomorrowDate(),
+    },
+    message: null,
+    errors: {},
+  };
   const validatedReservation = NewReservationSchema.safeParse({
     name: data.get('name'),
     email: data.get('email'),
@@ -26,9 +35,10 @@ export async function createReservation(
     movieId: data.get('movieId'),
   });
   if (!validatedReservation.success) {
-    const errors = flattenError(validatedReservation.error).fieldErrors;
     return {
-      errors: errors as NewReservationState['errors'],
+      ...newState,
+      errors: flattenError(validatedReservation.error)
+        .fieldErrors as NewReservationState['errors'],
     };
   }
 
@@ -39,6 +49,7 @@ export async function createReservation(
   });
   if (!movie) {
     return {
+      ...newState,
       errors: {
         movieId: ['A kiválasztott film nem létezik.'],
       },
@@ -46,6 +57,7 @@ export async function createReservation(
   }
   if (new Date(newReservation.date) > movie.playedUntil) {
     return {
+      ...newState,
       errors: {
         date: ['A kiválasztott dátum meghaladja a film vetítési időszakát.'],
       },
@@ -57,6 +69,7 @@ export async function createReservation(
   );
   if (error || !rows.length) {
     return {
+      ...newState,
       message:
         'Sajnáljuk, hiba történt a foglalás létrehozásakor. Kérjük, próbáld újra később.',
     };

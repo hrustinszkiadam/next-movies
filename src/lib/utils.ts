@@ -18,3 +18,9 @@ export const tryCatch = async <T, E = Error>(
     return [null, error as E] as const;
   }
 };
+
+export function getTomorrowDate(): string {
+  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  tomorrow.setHours(12, 0, 0, 0);
+  return tomorrow.toISOString().slice(0, 16);
+}
