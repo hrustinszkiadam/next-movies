@@ -1,5 +1,6 @@
+import BackButton from '@/components/back-button';
 import { getReservationById } from '@/lib/actions';
-import { cn } from '@/lib/utils';
+import { cn, formatDate } from '@/lib/utils';
 import { notFound } from 'next/navigation';
 import { Activity } from 'react';
 
@@ -37,8 +38,7 @@ export default async function Reservation({
       </h2>
       <div className='flex flex-col gap-4 text-justify font-mono text-pretty md:text-lg'>
         <ReservationData title='Foglalás Dátuma'>
-          {reservation.createdAt.toLocaleDateString()}{' '}
-          {reservation.createdAt.toLocaleTimeString()}
+          {formatDate(reservation.createdAt)}
         </ReservationData>
         <ReservationData title='Film címe'>
           {reservation.movie.title}
@@ -53,6 +53,7 @@ export default async function Reservation({
           {reservation.email}
         </ReservationData>
       </div>
+      <BackButton />
     </main>
   );
 }

@@ -24,3 +24,13 @@ export function getTomorrowDate(): string {
   tomorrow.setHours(12, 0, 0, 0);
   return tomorrow.toISOString().slice(0, 16);
 }
+
+export function formatDate(date: Date, time: boolean = false): string {
+  return new Intl.DateTimeFormat('hu-HU', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: time ? '2-digit' : undefined,
+    minute: time ? '2-digit' : undefined,
+  }).format(date);
+}

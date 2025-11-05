@@ -10,7 +10,7 @@ import { db } from '@/database';
 import { ReservationsTable } from '@/database/schema';
 import { cache } from 'react';
 import { cacheLife, cacheTag } from 'next/cache';
-import { eq } from 'drizzle-orm';
+import { eq, gt } from 'drizzle-orm';
 import { flattenError } from 'zod';
 import { redirect } from 'next/navigation';
 
@@ -105,6 +105,7 @@ export const getMovies = cache(async () => {
   });
 
   const movies = await db.query.MoviesTable.findMany({
+    where: (moviesTable) => gt(moviesTable.playedUntil, new Date()),
     orderBy: (moviesTable) => {
       return [moviesTable.playedUntil, moviesTable.title];
     },

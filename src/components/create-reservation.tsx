@@ -16,6 +16,7 @@ import { Movie, NewReservationState } from '@/lib/definitions';
 import { Combobox } from './ui/combobox';
 import { createReservation } from '@/lib/actions';
 import { getTomorrowDate } from '@/lib/utils';
+import { redirect } from 'next/navigation';
 
 type CreateReservationProps = {
   movies: Movie[];
@@ -150,12 +151,25 @@ export default function CreateReservation({ movies }: CreateReservationProps) {
         </FieldGroup>
       </FieldSet>
       <FieldGroup>
-        <Button
-          type='submit'
-          disabled={isPending}
+        <Field
+          className='mx-auto flex w-1/2 flex-row items-center justify-center self-center'
+          aria-disabled={isPending}
         >
-          Foglalás
-        </Button>
+          <Button
+            type='button'
+            variant='outline'
+            disabled={isPending}
+            onClick={() => redirect('/')}
+          >
+            Mégse
+          </Button>
+          <Button
+            type='submit'
+            disabled={isPending}
+          >
+            Foglalás
+          </Button>
+        </Field>
         <Activity mode={state.message ? 'visible' : 'hidden'}>
           <FieldError
             key={state.message}
