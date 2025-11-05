@@ -30,6 +30,12 @@ npm run db:start
 > Ha saját PostgreSQL szervert használsz, győződj meg róla, hogy a `.env` fájlban a `DATABASE_URL` helyesen van beállítva a helyi adatbázisodhoz.
 > Ha már fut egy adatbázis, le lehet állítani az `npm run db:stop` paranccsal.
 
+### Alkalmazd az adatbázis sémát
+
+```bash
+npm run db:push
+```
+
 ### Indítsd el a fejlesztői szervert
 
 ```bash
